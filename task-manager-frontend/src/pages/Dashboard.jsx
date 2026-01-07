@@ -8,7 +8,7 @@ export default function Dashboard() {
   // reusable fetch function (used after add / toggle)
   const fetchTasks = async () => {
     try {
-      const res = await api.get("/tasks");
+      const res = await api.get("/api/tasks");
       setTasks(res.data);
     } catch (err) {
       console.error(err);
