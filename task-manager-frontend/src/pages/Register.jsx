@@ -12,7 +12,7 @@ export default function Register() {
     }
 
     try {
-      const res = await api.post("/auth/register", {
+      const res = await api.post("/api/auth/register", {
         username,
         email,
         password,
@@ -60,3 +60,4 @@ export default function Register() {
     </div>
   );
 }
+
