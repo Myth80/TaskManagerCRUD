@@ -11,7 +11,7 @@ export default function Login() {
     }
 
     try {
-      const res = await api.post("/auth/login", { email, password });
+      const res = await api.post("/api/auth/login", { email, password });
       localStorage.setItem("token", res.data.token);
       alert(res.data?.message || "Login successful");
       window.location.href = "/dashboard";
