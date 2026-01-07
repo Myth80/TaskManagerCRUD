@@ -1,68 +1,58 @@
-import { useState } from "react";
+Login.jsx 
 import api from "../api/axios";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
 
-  const login = async (e) => {
-    e.preventDefault(); // 🔥 prevents page reload
-    console.log("Login clicked");
-    console.log("API URL:", import.meta.env.VITE_API_URL);
-
-    if (!email || !password) {
-      alert("Please fill all fields");
-      return;
-    }
+  const login = async () => {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
     try {
-      setLoading(true);
-
-      const res = await api.post("/auth/login", {
-        email,
-        password,
-      });
-
-      console.log("Response:", res.data);
-
+      const res = await api.post("/auth/login", { email, password });
       localStorage.setItem("token", res.data.token);
-      alert(res.data?.message || "Login successful");
-
       window.location.href = "/dashboard";
     } catch (err) {
-      console.log("Error:", err);
-      alert(err.response?.data?.message || "Login failed");
-    } finally {
-      setLoading(false);
+      alert(err.response.data.message);
+    }
+  };
+
+  const register = async () => {
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("regEmail").value;
+    const password = document.getElementById("regPassword").value;
+
+    try {
+      await api.post("/auth/register", { name, email, password });
+      alert("Registered successfully");
+    } catch (err) {
+      alert(err.response.data.message);
     }
   };
 
   return (
-    <div className="auth-container">
-      <h2>Login</h2>
+    <div className="page-center">
+      <div className="auth-card">
+        <h2 className="title">Task Manager</h2>
 
-      <form onSubmit={login}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+        <section className="auth-section" aria-labelledby="login-heading">
+          <h3 id="login-heading">Login</h3>
+          <input id="email" className="auth-input" placeholder="Email" />
+          <input id="password" className="auth-input" type="password" placeholder="Password" />
+          <div className="auth-actions">
+            <button onClick={login}>Login</button>
+          </div>
+        </section>
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-
-        <button type="submit" disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
-        </button>
-      </form>
+        <section className="auth-section" aria-labelledby="register-heading">
+          <h3 id="register-heading">Register</h3>
+          <input id="name" className="auth-input" placeholder="Name" />
+          <input id="regEmail" className="auth-input" placeholder="Email" />
+          <input id="regPassword" className="auth-input" type="password" placeholder="Password" />
+          <div className="auth-actions">
+            <button onClick={register}>Register</button>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
