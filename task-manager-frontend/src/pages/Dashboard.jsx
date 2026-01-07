@@ -17,13 +17,13 @@ export default function Dashboard() {
 
   const addTask = async () => {
     if (!title.trim()) return;
-    await api.post("/tasks", { title });
+    await api.post("/api/tasks", { title });
     setTitle("");
     fetchTasks();
   };
 
   const toggleComplete = async (id) => {
-    await api.put(`/tasks/${id}`);
+    await api.put(`/api/tasks/${id}`);
     fetchTasks();
   };
 
@@ -41,7 +41,7 @@ export default function Dashboard() {
 
     const loadTasks = async () => {
       try {
-        const res = await api.get("/tasks");
+        const res = await api.get("/api/tasks");
         setTasks(res.data);
       } catch (err) {
         console.error(err);
